@@ -14,7 +14,7 @@
 ### 驱动开发步骤
 1. 参考"驱动开发示例"，实现驱动接口 `DPModelDriver`
 2. 将驱动打包成一个 docker 容器即可
-3. 完整的示例请参考：[驱动程序Demo](./docs/summary.md)
+3. 完整的示例请参考：[驱动程序Demo](https://github.com/tuya/tuya-tedge-driver-example)
 4. 完整驱动开发指南请阅读：[驱动开发指南](./docs/summary.md)
 
 ### DPModelDriver interface

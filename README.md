@@ -14,7 +14,7 @@
 ### Driver development steps
 1. Reference the "Driver Development Example", developer must implement the interface `DPModelDriver`.
 2. Package the driver into a Docker image.
-3. For a complete demo, please refer to: [Driver Demo](./docs/summary.md)
+3. For a complete demo, please refer to: [Driver Demo](https://github.com/tuya/tuya-tedge-driver-example)
 4. Driver Development Guide, please refer to: [Driver Development Guide](./docs/summary.md)
 
 ### DPModelDriver interface

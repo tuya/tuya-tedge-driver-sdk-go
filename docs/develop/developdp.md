@@ -11,7 +11,7 @@
 - 2.将驱动打包成一个 docker 镜像
 - 3.在Tedge Web通过自定义方式，将开发好的驱动程序安装到Tedge中
 
-### 1.设备驱动开发Demo([驱动程序完整Demo](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go))
+### 1.设备驱动开发Demo([驱动程序完整Demo](https://github.com/tuya/tuya-tedge-driver-example))
 #### a.通过SDK创建驱动服务
 - step1: 创建驱动服务
 - step2: 实现驱动接口 `DPModelDriver`
@@ -66,8 +66,8 @@ func main() {
 ```
 
 #### b.实现驱动接口 `DPModelDriver`
-- 接口定义：[DP驱动接口](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
-- 实现示例：[完整示例代码](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
+- 接口定义：[DP驱动接口](https://github.com/tuya/tuya-tedge-driver-sdk-go/blob/main/dpmodel/interface.go)
+- 实现示例：[完整示例代码](https://github.com/tuya/tuya-tedge-driver-example/tree/main/dpdriver)
 
 ```golang
 type DPModelDriver interface {
@@ -86,8 +86,8 @@ type DPModelDriver interface {
 ```
 
 ### 2.驱动打包成镜像
-- Dockerfile 示例：[驱动程序Dockerfile示例](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
-- 将驱动打包成镜像：[镜像打包脚本示例](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
+- Dockerfile 示例：[驱动程序Dockerfile示例](https://github.com/tuya/tuya-tedge-driver-example/blob/main/Dockerfile)
+- 将驱动打包成镜像：[镜像打包脚本示例](https://github.com/tuya/tuya-tedge-driver-example/blob/main/script/dockerbuild.sh)
 
 ### 3.安装并启动驱动实例
 默认情况下，我们的驱动程序是存储在阿里云镜像仓库中的，若驱动存储在其它仓库，参考如下步骤1新增镜像仓库；
@@ -102,7 +102,7 @@ type DPModelDriver interface {
 ## 二、驱动程序与真实设备
 ### 1.发现并激活子设备
 - 驱动程序负责发现并激活子设备，不同设备需要根据实际情况进行处理
-- 子设备激活接口`ActiveDevice`，具体调用示例参考 [TestAddDevice](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
+- 子设备激活接口`ActiveDevice`，具体调用示例参考 [TestAddDevice](https://github.com/tuya/tuya-tedge-driver-example/blob/main/dpdriver/driverTest.go)
 - 关键参数说明：
     - Cid：子设备Cid，必填字段，网关下必须唯一
 	- ProductId: Pid，设备所属于产品Id，必填字段
@@ -122,7 +122,7 @@ type DPModelDriver interface {
 
 ### 3.上报子设备信息
 - 上报子设备信息是驱动程序最核心的功能，驱动程序负责将设备信息转化成DP消息并上报
-- 驱动Demo中展示了4种基本DP点类型的上报，bool、整数、字符串、枚举：`func (vd *DeviceShadow) ReportDp()`[ReportDp](https://github.com/tuya/tuya-edge-driver-sdk-go/blob/master/version.go)
+- 驱动Demo中展示了4种基本DP点类型的上报，bool、整数、字符串、枚举：`func (vd *DeviceShadow) ReportDp()`[ReportDp](https://github.com/tuya/tuya-tedge-driver-example/blob/main/dpdriver/device.go)
 - SDK关键API：`ReportWithDPData` 向涂鸦云上报设备DP消息
 
 ### 4.处理子设备指令
