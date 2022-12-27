@@ -1,3 +1,4 @@
+[English](README.md) | [中文版](README_CN.md)
 # tuya-tedge-driver-sdk-go：涂鸦边缘网关 Tedge 南向驱动开发 SDK
 
 ## 名词简介

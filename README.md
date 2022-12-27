@@ -1,3 +1,4 @@
+[English](README.md) | [中文版](README_CN.md)
 # tuya-tedge-driver-sdk-go：The SDK is used to develop southbound device driver connected to Tedge(Tuya edge gateway).
 
 ## Noun
