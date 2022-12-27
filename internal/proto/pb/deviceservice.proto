@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package deviceservice;
+option go_package = "../proto";
+import "google/protobuf/empty.proto";
+
+message DeviceServiceByIdRequest {
+    string id = 1;
+}
+
+message DeviceService {
+    string id = 1;
+    string name = 2;
+    string base_address = 3;
+    string device_library_id = 4;
+    string docker_container_id = 5;
+    bytes config = 6;
+    bool is_mount_dir = 7;
+    int32 run_status = 8;
+    bool expert_mode = 9;
+    string expert_mode_content = 10;
+    bool docker_params_switch = 11;
+    string docker_params = 12;
+    bool is_app_service = 13;
+}
+
+message MultiDeviceServiceResponse {
+    uint32 total = 1;
+    repeated DeviceService device_services = 2;
+}
+
+message AppByRegisterNameReq {
+    string name = 1;
+}
+
+message DriverProxyRequest {
+    string id   = 1;
+    string name = 2;
+    string host = 3;
+    string port = 4;
+}
+
+service RpcDeviceService {
+    rpc DeviceServiceById(DeviceServiceByIdRequest) returns (DeviceService) {}
+    rpc GetAppRegisterName(AppByRegisterNameReq) returns (DeviceService) {}
+
+    //驱动注册代理路由信息
+    rpc DriverProxyRegister(DriverProxyRequest) returns (google.protobuf.Empty) {}
+}

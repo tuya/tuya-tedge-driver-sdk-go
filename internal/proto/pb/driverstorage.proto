@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package driverstorage;
+option go_package = "../proto";
+
+import "google/protobuf/empty.proto";
+
+message PutReq {
+  string driver_service_id = 1;
+  repeated KV data = 2;
+}
+
+message GetReq {
+  string driver_service_id = 1;
+  repeated string keys = 2;
+}
+
+message AllReq { string driver_service_id = 1; }
+
+message DeleteReq {
+  string driver_service_id = 1;
+  repeated string keys = 2;
+}
+
+message KVs { repeated KV kvs = 1; }
+
+message KV {
+  string key = 1;
+  bytes value = 2;
+}
+
+message Keys { repeated string key = 1; }
+
+message GetPrefixReq {
+  string driver_service_id = 1;
+  string prefix = 2; // 根据前缀获取
+}
+
+service DriverStorage {
+  // All 获取全部本地数据(不带备份数据)
+  // deprecated 存在性能问题
+  rpc All(AllReq) returns (KVs);
+  // GetKeys 获取非备份的key
+  rpc GetKeys(GetPrefixReq) returns (Keys);
+  // Get 本地数据www
+  rpc Get(GetReq) returns (KVs);
+  // Put 存储在本地
+  rpc Put(PutReq) returns (google.protobuf.Empty);
+  // Delete 删除本地数据
+  rpc Delete(DeleteReq) returns (google.protobuf.Empty);
+
+  // V2接口带云端备份
+
+  // GetV2 获取备份数据
+  rpc GetV2(GetReq) returns (KVs);
+  // GetKeysV2 只获取备份数据的Key
+  rpc GetKeysV2(GetPrefixReq) returns (Keys);
+  // PutV2 存储备份数据,限制大小，超过会报错
+  rpc PutV2(PutReq) returns (google.protobuf.Empty);
+  // DeleteV2 删除备份数据
+  rpc DeleteV2(DeleteReq) returns (google.protobuf.Empty);
+}

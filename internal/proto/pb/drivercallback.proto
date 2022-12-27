@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package drivercallback;
+option go_package = "../proto";
+
+import "common.proto";
+import "device.proto";
+import "product.proto";
+import "google/protobuf/empty.proto";
+
+message AppBaseAddress {
+    string addr = 1;
+    string name= 2;
+}
+
+message GatewayState {
+    bool conn_status = 1;
+}
+
+service DriverCommonService {
+    rpc AddDeviceCallback(device.DeviceAddInfo) returns (google.protobuf.Empty) {}
+    rpc UpdateDeviceCallback(device.DeviceUpdateInfo) returns (google.protobuf.Empty) {}
+    rpc DeleteDeviceCallback(device.DeleteDeviceByIdRequest) returns (google.protobuf.Empty) {}
+
+    rpc ChangeLogLevel(common.LogLevelRequest) returns (google.protobuf.Empty) {}
+    rpc AppServiceAddress(AppBaseAddress) returns (google.protobuf.Empty);
+    rpc GatewayStateCallback(GatewayState) returns (google.protobuf.Empty) {}
+}
+
+message CmdRequest {
+    // 子设备ID
+    string cid = 1;
+    // 指令协议
+    common.EnumTUYAMQTTProtocol protocol = 2;
+    int64 t = 3;
+    int64 s = 4;
+    // 指令内容，透传
+    bytes data = 5;
+}
+
+service DPModelDriverService {
+    rpc UpdateProductCallback(product.Product) returns (google.protobuf.Empty) {}
+    // 指令下发
+    rpc IssueCommand(CmdRequest) returns (google.protobuf.Empty) {}
+}

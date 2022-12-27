@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package alert;
+option go_package = "../proto";
+
+// 告警类型
+enum AlertType {
+  ALERT_TYPE_UNSPECIFIED = 0;
+  SERVICE_ALERT = 1;  // 内部服务告警
+  DRIVER_ALERT = 2;   // 驱动告警
+}
+
+// 告警级别
+enum AlertLevel {
+  ALERT_LEVEL_UNSPECIFIED = 0;
+  ERROR_LEVEL = 1;  // error
+  WARN_LEVEL = 2;   // warn
+  NOTIFY_LEVEL = 3; // notify
+}
+
+message AlertReportReq {
+  string id = 1;
+  string version = 2;
+  string service_name = 3;
+  AlertType alert_type = 4;
+  AlertLevel alert_level = 5;
+  int64 t = 6;
+  string content = 7;
+}
+
+message AlertReportResp {
+  string id = 1;
+  int32 status_code = 2;
+  string message = 3;
+}
+
+service AlertReportService {
+  rpc AlertReport(AlertReportReq) returns (AlertReportResp);
+}

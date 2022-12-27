@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package product;
+option go_package = "../proto";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+message Product {
+    string id = 1;
+    string name = 2;
+    string description = 4;
+    string model = 5;
+    repeated DP dps = 6;
+    string device_library_id = 7;
+}
+
+message PropertyValue {
+    string type = 1;
+    string read_write = 2;
+    string units = 3;
+    int64 minimum = 4;
+    int64 maximum = 5;
+    string default_value = 6;
+    string shift = 7;
+    string scale = 8;
+    repeated string enum = 9;
+    repeated string fault = 10;
+}
+
+message DP {
+    string description = 1;
+    string id = 2;
+    PropertyValue properties = 3;
+    map<string, string> attributes = 4;
+}
+
+message ProductByIdRequest {
+    string id = 1;
+}
+
+message ProductsAddRequest {
+    repeated Product products = 1;
+}
+
+message ProductSearchQueryRequest{
+    common.BaseSearchConditionQuery base_search_condition_query = 1;
+    string device_library_id = 2;
+}
+
+message MultiProductsResponse {
+    uint32 total = 1;
+    repeated Product products = 2;
+}
+
+service RpcProduct {
+    rpc ProductById(ProductByIdRequest) returns (Product) {}
+    rpc ProductsSearch(ProductSearchQueryRequest) returns (MultiProductsResponse) {}
+    rpc ProductAdd(Product) returns (google.protobuf.Empty) {}
+}
