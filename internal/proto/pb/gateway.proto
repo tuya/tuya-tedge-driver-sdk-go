@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "../proto";
+import "google/protobuf/empty.proto";
+
+service RpcGatewayForDevice {
+    // 获取网关信息
+    rpc GetGatewayInfo(google.protobuf.Empty) returns (GateWayInfoResponse) {}
+}
+
+// 网关信息
+message GateWayInfoResponse {
+    string env = 2;
+    string gw_id = 3;
+    string local_key = 4;
+    string region = 6;
+    bool is_new_model = 15;     // thing model
+    bool cloud_state = 17;
+    string gateway_name = 19;
+}

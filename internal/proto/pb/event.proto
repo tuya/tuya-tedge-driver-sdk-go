@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package event;
+option go_package = "../proto";
+
+import "common.proto";
+import "google/protobuf/empty.proto";
+
+message BaseReading {
+    // event id
+    string id  = 1;
+    // event create time
+    int64 created = 2;
+    int64 origin = 3;
+    // device id
+    string device_id = 4;
+    // dp id
+    string dp_id = 5;
+    // product id
+    string product_id = 6;
+    // dp value type
+    string value_type = 7;
+    // dp data
+    oneof reading {
+        SimpleReading simple_reading = 8;
+        BinaryReading binary_reading = 9;
+    }
+}
+
+message SimpleReading {
+    string value = 1;
+}
+
+message BinaryReading {
+    string media_type = 1;
+    bytes binary_value = 2;
+}
+
+message Event {
+    string id = 1;
+    string device_id = 2;
+    string product_id = 3;
+    int64 created = 4;
+    int64 origin = 5;
+    repeated BaseReading readings = 6;
+}
+
+message Events {
+    repeated Event multi_events = 1;
+}
+
+// mqtt不带dp点数据上报
+message WithoutDpReport {
+    string topic = 1;
+    int32 protocol = 2;
+    int64 s = 3;
+    int64 t = 4;
+    bytes data = 5;
+}
+
+// 数据上报
+message HttpReport {
+    string http_api = 1;
+    string version = 2;
+    bytes payload = 3;
+}
+
+// 数据上报返回
+message Response {
+    string message = 1;
+}
+
+service RpcEvent {
+    // 添加多个Event
+    rpc Add(Events) returns (common.BaseWithIdResponse) {}
+    // mqtt不带dp点数据上报
+    rpc WithoutDpReportData(WithoutDpReport) returns (google.protobuf.Empty) {}
+    // 数据上报
+    rpc HttpReportData(HttpReport) returns (Response) {}
+}

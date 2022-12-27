@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package reportevent;
+option go_package = "../proto";
+
+message EventRequest {
+  string    deviceId     = 1;
+  string    device_addr  = 2;
+  string    event_type   = 3;
+  int64     t            = 4;
+  string    message      = 5;
+}
+
+message EventResponse {
+  int32  status_code = 1;
+  string message = 2;
+}
+
+service EventReportService {
+  rpc EventReport(EventRequest) returns (EventResponse);
+}
