@@ -1,39 +1,41 @@
 [English](README.md) | [中文版](README_CN.md)
-# tuya-tedge-driver-sdk-go：The SDK is used to develop southbound device driver connected to Tedge(Tuya edge gateway).
+# `tuya-edge-driver-sdk-go`: TEdge Southbound Driver SDK
 
-## Noun
-* Tedge: Tuya edge gateway, used to connect the devices to tuya cloud.
-* tedge-driver-sdk-go: Driver development sdk, used for the development of Tedge drivers.
-* Driver：The Tedge southbound plugin, used to connect devices and Tedge.
+## Terms
+* TEdge: the Tuya IoT Edge Gateway, used to connect third-party devices to Tuya IoT Cloud.
+* tedge-driver-sdk-go: the driver SDK, used to connect devices to TEdge through southbound interfaces.
+* Driver: the southbound plug-in of TEdge, used to interface with third-party devices.
 
-## Architecture of the Tedge
-![Tedge架构图.png](./docs/images/Tedge架构图1.png)
+## Architecture of TEdge
+![Image](./docs/images/Tedge架构图1.png)
 
-## Quck Start
+## Get started
 
-### Driver development steps
-1. Reference the "Driver Development Example", developer must implement the interface `DPModelDriver`.
-2. Package the driver into a Docker image.
-3. For a complete demo, please refer to: [Driver Demo](https://github.com/tuya/tuya-tedge-driver-example)
-4. Driver Development Guide, please refer to: [Driver Development Guide](./docs/summary.md)
+### Procedure
+1. Follow the example and implement the driver interface `DPModelDriver`.
+2. Package the driver into a Docker container.
+
+- For more information about the sample, see [TEdge Driver Demo](https://github.com/tuya/tuya-tedge-driver-example).
+- For more information about the guidelines on driver development, see [Documents on driver development](./docs/summary.md).
 
 ### DPModelDriver interface
 ```golang
 type DPModelDriver interface {
-	// DeviceNotify  add/update/delete device callback
+	// The callback to invoke when a sub-device is added, activated, updated, or deleted in the TEdge console.
 	DeviceNotify(ctx context.Context, t commons.DeviceNotifyType, cid string, device commons.DeviceInfo) error
 
-	// ProductNotify add/update/delete product callback
+	// The callback to invoke when a product is added, updated, or deleted in the TEdge console.
 	ProductNotify(ctx context.Context, t commons.ProductNotifyType, pid string, product DPModelProduct) error
 
-	// HandleCommands tuya cloud mqtt message: tuya cloud-->Tedge-->device
+	// The callback to invoke when a command is received and forwarded over MQTT in the following direction: Tuya IoT Cloud > TEdge > Sub-device
 	HandleCommands(ctx context.Context, cid string, req CommandRequest, protocols map[string]commons.ProtocolProperties, dpExtend DPExtendInfo) error
-
+    
+        // The callback to invoke when a driver instance is stopped from running in the TEdge console. The driver program can be recycled.
 	Stop(ctx context.Context) error
 }
 ```
 
-### Driver Development Example
+### Example
 ```golang
 package main
 
@@ -46,7 +48,7 @@ import (
 	"github.com/tuya/tuya-tedge-driver-sdk-go/service"
 )
 
-//TEdge Driver Development Example
+// Example of TEdge driver development
 func main() {
 	sdkLog := commons.DefaultLogger(commons.DebugLevel, "driver-example")
 	dpService := service.NewDPService(sdkLog)
@@ -55,7 +57,7 @@ func main() {
 	dpDriver := NewDemoDPDriver(dpService)
 	go dpDriver.Run()
 
-	//Note：dpDriver must implement `type DPModelDriver interface`
+	// Note: `dpDriver` requires the implementation of the interface `type DPModelDriver interface`.
 	//Start: blocked
 	err := dpService.Start(dpDriver)
 	if err != nil {
@@ -64,8 +66,8 @@ func main() {
 	}
 }
 
-// DemoDpDriver must implement `type DPModelDriver interface`
-// DPModelDriver is defined in sdk：`tedge-driver-sdk-go/dpmodel/interface.go`
+// `DemoDpDriver` requires the implementation of the interface `type DPModelDriver interface`.
+// The interface is defined in the SDK `tedge-driver-sdk-go/dpmodel/interface.go`.
 type DemoDPDriver struct {
 	dpService *service.DPDriverService
 }
@@ -77,9 +79,9 @@ func NewDemoDPDriver(dpService *service.DPDriverService) *DemoDPDriver {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//DPModelDriver interface implementation
-//1.Receive mqtt message to device from Tuya cloud
-//2.Note: Don't blocked!
+// Implementation of the interface `DPModelDriver`.
+// 1. Receive messages sent by TEdge or Tuya IoT Cloud over MQTT.
+// 2. Note: Do not perform blocking operations with the interface.
 func (dd *DemoDPDriver) HandleCommands(ctx context.Context, cid string, msg dpmodel.CommandRequest, protocols map[string]commons.ProtocolProperties, dpExtend dpmodel.DPExtendInfo) error {
 	//......
 	//TODO: implement me
@@ -87,37 +89,38 @@ func (dd *DemoDPDriver) HandleCommands(ctx context.Context, cid string, msg dpmo
 	return nil
 }
 
-//DPModelDriver interface implementation
-//1.This interface is callbacked by the Tedge, when Add/Active/Update/Delete a sub device on Tedge Web.
-//2.Note: Don't blocked!
+// Implementation of the interface `DPModelDriver`.
+// 1. The callback to invoke when a sub-device is added, activated, updated, or deleted in the TEdge console.
+// 2. Note: Do not perform blocking operations with the interface.
+// 3. Set the implementation of the interface to nil if you do not need to manually add sub-devices to the target gateway in the TEdge console.
 func (dd *DemoDPDriver) DeviceNotify(ctx context.Context, action commons.DeviceNotifyType, cid string, device commons.DeviceInfo) error {
 	//......
 	//TODO: implement me
-    //Send message to the real device
+        //Send message to the real device
 
 	return nil
 }
 
-//DPModelDriver interface implementation
-//1.This interface is callbacked by the Tedge, when Add/Update/Delete a product on Tedge Web.
-//2.Note: Don't blocked!
+// Implementation of the interface `DPModelDriver`.
+// 1. ProductNotify: the callback to invoke when a product is added, updated, or deleted.
+// 2. Note: Do not perform blocking operations with the interface.
 func (dd *DemoDPDriver) ProductNotify(ctx context.Context, t commons.ProductNotifyType, pid string, product dpmodel.DPModelProduct) error {
 	return nil
 }
 
-//DPModelDriver interface implementation
-//1.This interface is callbacked by the Tedge, when the driver is stoped.
+// Implementation of the interface `DPModelDriver`.
+// The callback to invoke when a driver instance is updated or stopped from running on TEdge. The driver program can be recycled.
 func (dd *DemoDPDriver) Stop(ctx context.Context) error {
 	return nil
 }
 
-//Custom Implementation
+// The callback to invoke when a driver instance is updated or stopped from running on TEdge. The driver program can be recycled.
 func (dd *DemoDPDriver) Run() {
 	//......
 }
 ```
 
-### Implementation driver with mqtt
+### Implementation driver with MQTT
 
 ```golang
 type MqttDriver struct {
@@ -132,30 +135,30 @@ func NewMqttDriver(l commons.TedgeLogger) *MqttDriver {
 
 var _ commons.MqttDriver = (*MqttDriver)(nil)
 
-// Auth mqtt auth event, return true if the verification is passed.
+// Auth: the MQTT authentication event. A value of `true` indicates successful authentication.
 func (md *MqttDriver) Auth(clientId, username, password string) (bool, error) {
 	md.logger.Debugf("auth: clientId: %s, username: %s, password: %s", clientId, username, password)
 	return true, nil
 }
 
-// Sub mqtt subscribe event, return true if the verification is passed.
+// Sub: the MQTT subscription event. A value of `true` indicates a successful subscription.
 func (md *MqttDriver) Sub(clientId, username, topic string, qos byte) (bool, error) {
 	md.logger.Debugf("sub: clientId: %s, username: %s, topic: %s, qos: %d", clientId, username, topic, qos)
 	return true, nil
 }
 
-// Pub mqtt publish event, return true if the verification is passed.
+// Pub: the MQTT authentication event. A value of `true` indicates successful publishing.
 func (md *MqttDriver) Pub(clientId, username, topic string, qos byte, retained bool) (bool, error) {
 	md.logger.Debugf("pub: clientId: %s, username: %s, topic: %s, qos: %d, retained: %t", clientId, username, topic, qos, retained)
 	return true, nil
 }
 
-// UnSub mqtt unsubscribe event
+// UnSub: unsubscribe from an MQTT topic
 func (md *MqttDriver) UnSub(clientId, username string, topics []string) {
 	md.logger.Debugf("unsub: clientId: %s, username: %s, topics: %+v", clientId, username, topics)
 }
 
-// Connected mqtt connect event
+// Connected
 func (md *MqttDriver) Connected(clientId, username string) {
 }
 
@@ -184,12 +187,13 @@ func (md *MqttDriver) OnMessageReceived() mqtt.MessageHandler {
 ```
 
 ## SDK API
-* DP Model SDK API: `tedge-driver-sdk-go/service/dpmodelapi.go`
-* TuyaLink Model SDK API: `tedge-driver-sdk-go/service/tymodelapi.go`
+* DP model SDK API: `tedge-driver-sdk-go/service/dpmodelapi.go`
+* TuyaLink model SDK API: `tedge-driver-sdk-go/service/tymodelapi.go`
 
-## Technical Support
+## Technical support
 Tuya IoT Developer Platform: https://developer.tuya.com/en/
 
 Tuya Developer Help Center: https://support.tuya.com/en/help
 
-Tuya Work Order System: https://service.console.tuya.com/
+Tuya Service Ticket System: https://service.console.tuya.com/
+
