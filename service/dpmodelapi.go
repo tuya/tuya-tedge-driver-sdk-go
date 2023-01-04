@@ -39,6 +39,11 @@ func (dds *DPDriverService) Start(driver dpmodel.DPModelDriver, opts ...driversv
 	return dds.dpService.Start(driver, opts...)
 }
 
+// GetTEdgeModel 获取TEdge运行模式
+func (dds *DPDriverService) GetTEdgeModel() commons.RunningModel {
+	return dds.GetTEdgeModel()
+}
+
 // GetLogger 获取sdk的logger
 func (dds *DPDriverService) GetLogger() commons.TedgeLogger {
 	return dds.dpService.BaseService.GetLogger()

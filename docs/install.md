@@ -52,7 +52,7 @@ systemctl start docker
 ## 2.1 第一步：下载安装工具
 
 ### MacOS 系统安装：
-- MacOS 安装包下载：<a href="../images/Edgetools-mac.zip" target="_blank">网关部署工具MacOS</a>
+- MacOS 安装包下载：<a href="https://airtake-public-data-1254153901.cos.ap-shanghai.myqcloud.com/tedge/tool/Edgetools-mac.zip" target="_blank">网关部署工具MacOS</a>
 
 - 解压缩后，将 Edgetools 移动到 "应用程序"：![mac工具解压安装.png](./images/mac解压安装.png)
 
@@ -63,7 +63,7 @@ systemctl start docker
     - 打开"终端"，切换到压缩包解压后的目录，执行 `xattr -r -d com.apple.quarantine Edgetools.app`，完成后再将 Edgetools 移动到 "应用程序"。
 
 ### Windows 系统安装：
-- Windows 安装包：<a href="../images/Edgetools-win.zip" target="_blank">网关部署工具Windows10</a>
+- Windows 安装包：<a href="https://airtake-public-data-1254153901.cos.ap-shanghai.myqcloud.com/tedge/tool/Edgetools-win.zip" target="_blank">网关部署工具Windows10</a>
 - windows10版下载，右键解压，进入解压目录后，`右键`->`管理员权限运行`。
 
 ## 2.2 第二步：初始化系统环境(可略过)

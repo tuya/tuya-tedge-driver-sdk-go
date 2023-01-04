@@ -30,6 +30,11 @@ func NewTyServiceWithBase(bds *driversvc.BaseService) *TyDriverService {
 	}
 }
 
+// GetTEdgeModel 获取TEdge运行模式
+func (tmds *TyDriverService) GetTEdgeModel() commons.RunningModel {
+	return tmds.GetTEdgeModel()
+}
+
 func (tmds *TyDriverService) Start(driver thingmodel.ThingModelDriver, opts ...driversvc.Option) error {
 	return tmds.tyService.Start(driver, opts...)
 }
