@@ -6,7 +6,6 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/commons"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/dpmodel"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/driversvc"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/thingmodel"
 )
 
@@ -32,7 +31,7 @@ type TyModelApi interface {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 type DpBaseApi interface {
-	Start(driver dpmodel.DPModelDriver, opts ...driversvc.Option) error
+	Start(driver dpmodel.DPModelDriver, opts ...commons.Option) error
 
 	// ActiveDevice 新增并激活一个子设备
 	ActiveDevice(device commons.DeviceMeta) error
@@ -202,7 +201,7 @@ type DriverProxy interface {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 type TyBaseApi interface {
-	Start(driver thingmodel.ThingModelDriver, opts ...driversvc.Option) error
+	Start(driver thingmodel.ThingModelDriver, opts ...commons.Option) error
 	ActiveDevice(device commons.TMDeviceMeta) error
 	AddDevice(device commons.TMDeviceMeta) error
 	AllDevices() map[string]commons.TMDeviceInfo

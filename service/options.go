@@ -3,46 +3,44 @@ package service
 import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/commons"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/clients"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/driversvc"
 )
 
 type funcOption struct {
-	f func(service *driversvc.Options)
+	f func(service *commons.Options)
 }
 
-func (fdo *funcOption) Apply(do *driversvc.Options) {
+func (fdo *funcOption) Apply(do *commons.Options) {
 	fdo.f(do)
 }
 
-func newFuncOption(f func(*driversvc.Options)) *funcOption {
+func newFuncOption(f func(*commons.Options)) *funcOption {
 	return &funcOption{
 		f: f,
 	}
 }
 
-func WithMqtt(driver commons.MqttDriver, username string, connHandler mqtt.OnConnectHandler) driversvc.Option {
-	return newFuncOption(func(o *driversvc.Options) {
+func WithMqtt(driver commons.MqttDriver, username string, connHandler mqtt.OnConnectHandler) commons.Option {
+	return newFuncOption(func(o *commons.Options) {
 		o.MqttDriver = driver
 		o.ConnHandler = connHandler
 		o.MqttUsername = username
 	})
 }
 
-func WithAppService(appServiceNames []string) driversvc.Option {
-	return newFuncOption(func(o *driversvc.Options) {
+func WithAppService(appServiceNames []string) commons.Option {
+	return newFuncOption(func(o *commons.Options) {
 		o.AppService = appServiceNames
 	})
 }
 
-func WithCallBack(callBack clients.AppCallBack) driversvc.Option {
-	return newFuncOption(func(o *driversvc.Options) {
+func WithCallBack(callBack commons.AppCallBack) commons.Option {
+	return newFuncOption(func(o *commons.Options) {
 		o.AppDataHandler = callBack
 	})
 }
 
-func WithRtsOption() driversvc.Option {
-	return newFuncOption(func(o *driversvc.Options) {
+func WithRtsOption() commons.Option {
+	return newFuncOption(func(o *commons.Options) {
 		o.EnableRTS = true
 	})
 }

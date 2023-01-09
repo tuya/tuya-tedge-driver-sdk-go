@@ -105,7 +105,7 @@ func (tmds *TyModelService) initTyProductCache() (string, error) {
 	return ds.DeviceLibraryId, nil
 }
 
-func (tmds *TyModelService) Start(driver thingmodel.ThingModelDriver, opts ...Option) error {
+func (tmds *TyModelService) Start(driver thingmodel.ThingModelDriver, opts ...commons.Option) error {
 	lc := tmds.GetLogger()
 	if driver == nil {
 		lc.Errorf("thingsmodel.ThingModelDriver unimplemented")

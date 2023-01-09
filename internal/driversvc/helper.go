@@ -65,7 +65,7 @@ func (bds *BaseService) GetContext() (context.Context, context.CancelFunc) {
 	return bds.ctx, bds.cancel
 }
 
-func (bds *BaseService) GetAppHandler() clients.AppCallBack {
+func (bds *BaseService) GetAppHandler() commons.AppCallBack {
 	return bds.appCliManager.AppDataHandler
 }
 
@@ -129,7 +129,7 @@ type appCliManager struct {
 
 	mutex          sync.Mutex
 	appClientMap   map[string]clients.AppClientCnnMap
-	AppDataHandler clients.AppCallBack
+	AppDataHandler commons.AppCallBack
 }
 
 func newAppCliManager(logger commons.TedgeLogger, resourceCli *clients.ResourceClient) *appCliManager {
@@ -140,7 +140,7 @@ func newAppCliManager(logger commons.TedgeLogger, resourceCli *clients.ResourceC
 	}
 }
 
-func (appm *appCliManager) setAppHandler(handler clients.AppCallBack) {
+func (appm *appCliManager) setAppHandler(handler commons.AppCallBack) {
 	appm.AppDataHandler = handler
 }
 
