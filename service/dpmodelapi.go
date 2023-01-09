@@ -35,7 +35,7 @@ func NewDPServiceWithBase(bds *driversvc.BaseService) *DPDriverService {
 	}
 }
 
-func (dds *DPDriverService) Start(driver dpmodel.DPModelDriver, opts ...driversvc.Option) error {
+func (dds *DPDriverService) Start(driver dpmodel.DPModelDriver, opts ...commons.Option) error {
 	return dds.dpService.Start(driver, opts...)
 }
 

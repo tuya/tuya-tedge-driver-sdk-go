@@ -6,7 +6,6 @@ import (
 	"github.com/tuya/tuya-tedge-driver-sdk-go/commons"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/dpmodel"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/cache"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/clients"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/config"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/proto"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/worker"
@@ -25,7 +24,7 @@ type DriverCommonItf interface {
 	SetCloudStatus(status bool)
 	GetDevCache() *cache.DeviceCache
 
-	GetAppHandler() clients.AppCallBack
+	GetAppHandler() commons.AppCallBack
 	UpdateAppAddress(ctx context.Context, req *proto.AppBaseAddress) error
 }
 

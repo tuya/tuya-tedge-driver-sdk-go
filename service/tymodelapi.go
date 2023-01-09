@@ -35,7 +35,7 @@ func (tmds *TyDriverService) GetTEdgeModel() commons.RunningModel {
 	return tmds.GetTEdgeModel()
 }
 
-func (tmds *TyDriverService) Start(driver thingmodel.ThingModelDriver, opts ...driversvc.Option) error {
+func (tmds *TyDriverService) Start(driver thingmodel.ThingModelDriver, opts ...commons.Option) error {
 	return tmds.tyService.Start(driver, opts...)
 }
 

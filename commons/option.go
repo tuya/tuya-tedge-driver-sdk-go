@@ -1,9 +1,7 @@
-package driversvc
+package commons
 
 import (
-	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/commons"
-	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/clients"
+	"github.com/eclipse/paho.mqtt.golang"
 )
 
 type Option interface {
@@ -12,14 +10,14 @@ type Option interface {
 
 type Options struct {
 	MqttUsername   string
-	MqttDriver     commons.MqttDriver
+	MqttDriver     MqttDriver
 	ConnHandler    mqtt.OnConnectHandler
 	AppService     []string
-	AppDataHandler clients.AppCallBack
+	AppDataHandler AppCallBack
 	EnableRTS      bool
 }
 
-func defaultOptions() Options {
+func DefaultOptions() Options {
 	return Options{
 		MqttDriver:     nil,
 		ConnHandler:    nil,
@@ -29,3 +27,6 @@ func defaultOptions() Options {
 		EnableRTS:      false,
 	}
 }
+
+type AppCallBack func(appName string, req AppDriverReq) (Response, error)
+

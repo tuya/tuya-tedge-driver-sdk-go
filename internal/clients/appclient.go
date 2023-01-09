@@ -3,7 +3,6 @@ package clients
 import (
 	"fmt"
 
-	"github.com/tuya/tuya-tedge-driver-sdk-go/commons"
 	"github.com/tuya/tuya-tedge-driver-sdk-go/internal/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/resolver"
@@ -17,8 +16,6 @@ type AppService struct {
 	Name      string
 	RpcClient AppClient
 }
-
-type AppCallBack func(appName string, req commons.AppDriverReq) (commons.Response, error)
 
 func dail(builder *AppResolverBuilder) (*grpc.ClientConn, error) {
 

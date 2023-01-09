@@ -67,7 +67,7 @@ func NewDPModelService(bds *BaseService) *DPModelService {
 	return dds
 }
 
-func (dds *DPModelService) Start(driver dpmodel.DPModelDriver, opts ...Option) error {
+func (dds *DPModelService) Start(driver dpmodel.DPModelDriver, opts ...commons.Option) error {
 	lc := dds.GetLogger()
 	if driver == nil {
 		lc.Errorf("Start: dpmodel.DPModelDriver unimplemented")

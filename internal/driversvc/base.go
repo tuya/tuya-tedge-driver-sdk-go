@@ -38,7 +38,7 @@ type BaseService struct {
 	resourceCli *clients.ResourceClient
 	MqttClient  *mqttclient.MqttClient
 
-	options       Options
+	options       commons.Options
 	configMgr     *ConfigManger
 	ossManager    *ossManager
 	appCliManager *appCliManager
@@ -83,7 +83,7 @@ func NewBaseService(l commons.TedgeLogger) *BaseService {
 		ctx:     ctx,
 		cancel:  cancel,
 		wg:      &wg,
-		options: defaultOptions(),
+		options: commons.DefaultOptions(),
 
 		logger:      lc,
 		resourceCli: cli,
