@@ -461,6 +461,37 @@ func (bds *BaseService) ReportDeviceStatus(data *commons.DeviceStatus) error {
 	return nil
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+func (bds *BaseService) ReportTuyaDeviceStatus(data *commons.DeviceStatus) error {
+	in, err := transform.DeviceStatusToProto(data)
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), common.GRPCTimeout)
+	defer cancel()
+	if _, err = bds.resourceCli.ReportTYDevicesStatus(ctx, in); err != nil {
+		return errors.New(status.Convert(err).Message())
+	}
+
+	for _, online := range data.Online {
+		info, exist := bds.devCache.ById(online)
+		if exist {
+			info.OnLineStatus = string(commons.Online)
+			bds.devCache.Update(info)
+		}
+	}
+
+	for _, offline := range data.Offline {
+		info, exist := bds.devCache.ById(offline)
+		if exist {
+			info.OnLineStatus = string(commons.Offline)
+			bds.devCache.Update(info)
+		}
+	}
+	return nil
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 func (bds *BaseService) ReportThroughHttp(api, version string, payload map[string]interface{}) (string, error) {
 	in, err := transform.HTTPDataReportToProto(api, version, payload)

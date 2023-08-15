@@ -112,7 +112,7 @@ func (dd *DemoDPDriver) Stop(ctx context.Context) error {
 	return nil
 }
 
-//在Tedge页面，更新驱动实例，或停止驱动实例时，回调该接口，驱动程序进行资源清理
+//运行自定义逻辑
 func (dd *DemoDPDriver) Run() {
 	//......
 }

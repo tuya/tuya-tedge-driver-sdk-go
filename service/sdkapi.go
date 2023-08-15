@@ -12,6 +12,7 @@ import (
 type DpModelApi interface {
 	DpBaseApi
 	CommonBaseApi
+	TuyaDeviceExtItf
 
 	DriverMqtt
 	KVDatabase
@@ -123,6 +124,11 @@ type CommonBaseApi interface {
 
 	// GetServiceId 获取驱动实例Id
 	GetServiceId() string
+}
+
+type TuyaDeviceExtItf interface {
+	//ReportTYDeviceStatus 上报涂鸦设备状态：在线、离线
+	ReportTYDeviceStatus(data *commons.DeviceStatus) error
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
