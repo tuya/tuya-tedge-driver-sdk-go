@@ -97,6 +97,11 @@ func (dds *DPDriverService) ReportDeviceStatus(data *commons.DeviceStatus) error
 	return dds.dpService.ReportDeviceStatus(data)
 }
 
+// ReportTYDeviceStatus 上报子设备状态
+func (dds *DPDriverService) ReportTYDeviceStatus(data *commons.DeviceStatus) error {
+	return dds.dpService.ReportTuyaDeviceStatus(data)
+}
+
 // ReportWithDPData 上报带dp点的数据
 // 支持多个dp点同时上报
 // dataType为以下其中之一：

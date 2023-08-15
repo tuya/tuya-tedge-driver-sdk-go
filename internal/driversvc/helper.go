@@ -244,7 +244,7 @@ func (appm *appCliManager) updateAppAddress(ctx context.Context, req *proto.AppB
 //	// 存在应用rpcClientMap
 //	if ok {
 //		if appRpcClient, exist := appRpcClientCnnMap[appRpcCnnNum]; exist {
-//			connStat := appRpcClient.Conn.GetState()
+//			connStat := appRpcClient.ConnMqtt.GetState()
 //			if connStat == connectivity.Idle || connStat == connectivity.Ready {
 //				return appRpcClient, nil
 //			}

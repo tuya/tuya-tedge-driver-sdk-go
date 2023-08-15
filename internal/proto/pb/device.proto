@@ -179,4 +179,7 @@ service RpcDevice {
 
   // 上报设备上下线状态
   rpc ReportDevicesOnlineAndOffline(DeviceOnlineAndOfflineList) returns (google.protobuf.Empty) {}
+
+  // 上报设备上下线状态
+  rpc ReportTYDevicesStatus(DeviceOnlineAndOfflineList) returns (google.protobuf.Empty) {}
 }
