@@ -1,8 +1,9 @@
 # 1 环境依赖
-## 1.1 硬件环境
+## 1.1 运行环境
 - 硬件配置：最低1核、512MB内存。
 - 平台架构：x86、armv7 。
 - 操作系统：Centos、Ubuntu。
+- 软件依赖：Docker 20.10.0 以上
 
 ## 1.2 关闭SELinux
 ```bash
@@ -63,8 +64,11 @@ systemctl start docker
     - 打开"终端"，切换到压缩包解压后的目录，执行 `xattr -r -d com.apple.quarantine Edgetools.app`，完成后再将 Edgetools 移动到 "应用程序"。
 
 ### Windows 系统安装：
-- Windows 安装包：<a href="https://airtake-public-data-1254153901.cos.ap-shanghai.myqcloud.com/tedge/tool/Edgetools-win.zip" target="_blank">网关部署工具Windows10</a>
-- windows10版下载，右键解压，进入解压目录后，`右键`->`管理员权限运行`。
+- Windows 安装包：<a href="https://airtake-public-data-1254153901.cos.ap-shanghai.myqcloud.com/tedge/tool/Edgetools-win.zip" target="_blank">网关部署工具Windows</a>
+- windows 版下载，右键解压，进入解压目录后，`右键`->`管理员权限运行`。
+
+### 特别说明
+- 如果 mac 版本不可用，建议使用 window 电脑进行安装。
 
 ## 2.2 第二步：初始化系统环境(可略过)
 
@@ -91,25 +95,18 @@ systemctl start docker
 
 ![网关加密](./images/配置DP模型网关.png)
 
-- 网关id：与SecKey、LocalKey互为三元组，必须同时存在。
-- SecKey：与网关id、LocalKey互为三元组，必须同时存在。
-- LocalKey：与网关id、SecKey互为三元组，必须同时存在。
+- 网关id：与SecKey、LocalKey互为三元组，必须同时存在，找涂鸦对接的同学要。
+- SecKey：与网关id、LocalKey互为三元组，必须同时存在，找涂鸦对接的同学要。
+- LocalKey：与网关id、SecKey互为三元组，必须同时存在，找涂鸦对接的同学要。
 - 网关uuid：非必填项；
 - 网关pid：网关本身也是一个产品，默认 pid 为 "0ie1lmt1ydzb466x"。
 - 可激活设备数：网关下允许接入的子设备最大数量。
 - 目的主机mac地址：目的主机的网卡地址，多个网卡时随机选择一个，当ssh已登陆可随机获取一个。
 - 区域：根据实际情况选取，默认为中国区。
-- 环境：根据实际情况选取，默认为生产环境。
+- 环境：根据实际情况选取，默认为生产环境；开发阶段建议选择预发环境，不要选择日常环境！！！
+- 说明：若"网关id/SecKey/LocalKey"三元组正确无误，部署成功完成后就处于激活状态！
 
 将如上所有信息填好后，点击加密并上传(确保ssh已登陆)。
-
-### b.部署物模型网关
-
-![配置物模型网关](./images/配置物模型网关.png)
-
-此种场景需要先在iot平台上创建边缘网关产品，并生成网关设备。
-
-边缘网关部署完成后，登录网关Web控制台，输入从IOT平台获取到的 `pid` 和 `deviceId` 以及 `deviceSecret`。
 
 ## 2.4 第四步：部署边缘网关
 

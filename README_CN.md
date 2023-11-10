@@ -4,7 +4,7 @@
 ## 名词简介
 * Tedge: 涂鸦边缘网关，主要用于将第三方设备接入涂鸦云。
 * tedge-driver-sdk-go: 驱动开发SDK，连接南向设备和Tedge。
-* 驱动：Tedge南向插件，用来对接第三方设备。
+* 驱动程序：Tedge南向插件，用来对接第三方设备。
 
 ## Tedge 架构
 ![Tedge架构图.png](./docs/images/Tedge架构图1.png)
